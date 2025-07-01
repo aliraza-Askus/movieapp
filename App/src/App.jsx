@@ -1,15 +1,13 @@
-/** @format */
-
-import { useState } from "react";
 import "./App.css";
-import WelcomeCard from "./component/welcome";
+import { RouterProvider } from "react-router-dom";
+import router from "./app/route/Pagerouting"
 
-function App() {
+const App = () => {
   return (
     <>
-      <WelcomeCard />
+      <RouterProvider router={router} />
     </>
   );
-}
+};
 
 export default App;
