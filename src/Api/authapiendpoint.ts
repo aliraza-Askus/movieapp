@@ -1,9 +1,9 @@
 /** @format */
-
 import axios from "axios";
 import { toast } from "react-toastify";
-//{{apis}}/api/auth/register
-const API_END_POINT = "https://apis.askussolution.tech/api/auth";
+
+const API_END_POINT =
+  "https://api.allorigins.win/raw?url=https://apis.askussolution.tech";
 
 export const UserAuth = () => {
   return {
@@ -14,16 +14,17 @@ export const UserAuth = () => {
             "Content-Type": "application/json",
           },
         });
-
         if (res.status === 200 || res.status === 201) {
           toast.success(res.data.message);
+          return res.data;
         }
       } catch (error) {
         toast.error(error?.response?.data?.message || "Signup failed!");
+        throw error;
       }
     },
 
-    //fresh token access accesstoken
+    // Send OTP to phone number
     signin: async (input) => {
       try {
         const res = await axios.post(`${API_END_POINT}/sign-in`, input, {
@@ -31,12 +32,31 @@ export const UserAuth = () => {
             "Content-Type": "application/json",
           },
         });
-
         if (res.status === 200 || res.status === 201) {
-          toast.success(res.data.message);
+          toast.success(res.data.message || "OTP sent successfully!");
+          return res.data;
         }
       } catch (error) {
-        toast.error(error?.response?.data?.message || "Login failed!");
+        toast.error(error?.response?.data?.message || "Failed to send OTP!");
+        throw error;
+      }
+    },
+
+    // Verify OTP
+    verifyOTP: async (input) => {
+      try {
+        const res = await axios.post(`${API_END_POINT}/verify-otp`, input, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (res.status === 200 || res.status === 201) {
+          toast.success(res.data.message || "OTP verified successfully!");
+          return res.data;
+        }
+      } catch (error) {
+        toast.error(error?.response?.data?.message || "Invalid OTP!");
+        throw error;
       }
     },
   };

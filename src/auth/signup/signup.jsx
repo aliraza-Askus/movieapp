@@ -1,6 +1,8 @@
 /** @format */
 import { useState } from "react";
 import { UserAuth } from "../../Api/authapiendpoint";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const [input, setInput] = useState({
@@ -13,6 +15,7 @@ const SignUp = () => {
   });
   // get the signup function from UserAuth
   const { signUp } = UserAuth();
+  const navigate = useNavigate();
 
   const handleOnChange = (e) => {
     const { name, value } = e.target;
@@ -26,6 +29,7 @@ const SignUp = () => {
       console.log("Submit Input:", input);
       // call your API function
       await signUp(input);
+      navigate("/signin");
     } catch (error) {
       console.error("Signup failed in handler:", error);
       toast.error("Signup failed. Please try again.");
